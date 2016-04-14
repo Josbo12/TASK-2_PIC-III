@@ -2,22 +2,25 @@
   <head>
     <title>Users</title>
   </head>
-  <body>
-    <h2>Users</h2>
-    <table border="1">
+  <body style="background:#F7F2BE">
+    <pre>
+    <FONT FACE="verdana">
+    <h1><span style="color:#744F0F"><FONT SIZE=10 COLOR=""  > Users list </FONT></span></h1>
+    <table style="background:#F7F2BE" border=6 cellspacing=0 cellpadding=2  >
       <tr>
-	<th>User</th>
-	<th>Name</th>
-	<th>Password</th>
-	<th>Email</th>
+	<th WIDTH=300 ALIGN=CENTER style="background:#F5E886">  User  </th>
+	<th WIDTH=300 ALIGN=CENTER style="background:#F5E886">  Name  </th>
+	<th WIDTH=300 ALIGN=CENTER style="background:#F5E886">  Email  </th>
       </tr>
 	{% for row in list_of_users %}
           <tr>
 	  {% for cell in row %}
-	    <td> {{cell}} </td>
+	    <td ALIGN=CENTER>   {{cell}}   </td>
 	  {% endfor %}
 	  </tr>
 	{% endfor %}
     </table>
+    </FONT>
+  </pre>
   </body>
 </html>

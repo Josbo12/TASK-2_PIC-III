@@ -24,7 +24,7 @@ def save_data(username,name,password,email):
 
 def get_data():
     conn = sqlite3.connect('dadestask2.db')
-    cursor = conn.execute("SELECT username,name,password,email from users")
+    cursor = conn.execute("SELECT username,name,email from users")
     data = [row for row in cursor]
     conn.close()
     return data
