@@ -1,0 +1,34 @@
+<html>
+  <head>
+    <title>Historical Data</title>
+  </head>
+  <body>
+    <h2>Zone Data</h2>
+    <table border="1">
+      <tr>
+	<th>Date</th>
+	<th>Time</th>
+	<th>Zone</th>
+	<th>Temperature</th>
+      </tr>
+	{% for row in zone_data %}
+          <tr>
+	  {% for cell in row %}
+	    <td> {{cell}} </td>
+	  {% endfor %}  
+	  </tr>  
+	{% endfor %}    
+    </table>
+    <form action="zone_data" id="zoneform" method="post">
+      <select name="area" form="zoneform">
+      {% for zone in zones%}
+      <option value="{{zone}}">{{zone}}</option>
+      {% endfor %}
+    </select>  
+
+      <input type="submit" name="Select Zone">
+    </form>
+
+  </body>
+</html>
+
