@@ -1,0 +1,11 @@
+BEGIN;
+INSERT INTO temps values(date('now', '-1 day'), time('now'), "kitchen", 20.6);
+INSERT INTO temps values(date('now', '-1 day'), time('now'), "greenhouse", 26.3);
+INSERT INTO temps values(date('now', '-1 day'), time('now'), "garage", 18.6);
+INSERT INTO temps values(date('now'), time('now', '-12 hours'), "kitchen", 19.5);
+INSERT INTO temps values(date('now'), time('now', '-12 hours'), "greenhouse", 15.1);
+INSERT INTO temps values(date('now'), time('now', '-12 hours'), "garage", 18.1);
+INSERT INTO temps values(date('now'), time('now'), "kitchen", 21.2);
+INSERT INTO temps values(date('now'), time('now'), "greenhouse", 27.1);
+INSERT INTO temps values(date('now'), time('now'), "garage", 19.1);
+COMMIT;
