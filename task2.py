@@ -52,19 +52,19 @@ def insert_user():
     if request.method == 'GET':
             return render_template('create_a_new_user.html')
     elif request.method == 'POST':
-        user = request.form.get('username')
+        username = request.form.get('username')
         name = request.form.get('name')
-        mail = request.form.get('password')
-        password = request.form.get('email')
-        if save_data(zone,temp,mail,password):
+        password = request.form.get('password')
+        email = request.form.get('email')
+        if save_data(username,name,password,email):
             return redirect(url_for('hello'))
         else:
             return "Error inserting user"
 
 @app.route('/list_of_users', methods=['GET', 'POST'])
 def list_of_users():
-    listusers = get_data()
-    return render_template('list_of_users.html',listusers=listusers)
+    list_of_users = get_data()
+    return render_template('list_of_users.html',list_of_users=list_of_users)
 
 #@app.route('/zone_data', methods=['GET', 'POST'])
 #def zone_data():
