@@ -1,0 +1,31 @@
+Aquesta tasca permetrà la creació i consulta dels usuaris d'un determinat domini.
+Aquesta aplicació Web estalviarà / mostrar als usuaris d'una base de dades SQLite.
+
+La tasca tindrà 4 parts :
+
+    La pàgina de destinació que mostren totes les funcionalitats de la pàgina amb
+    enllaços a tots els recursos. Aquesta pàgina mostra quan se sol·licita la ruta arrel ( / )
+
+    formulari d'usuari que permet inserir nous usuaris ( / insert_user ) - 3 punts
+
+    Pàgina que mostrarà als usuaris en una taula HTML ( / show_users ) - 3 punts
+
+    panell d'inici de sessió ( / login ) - 3 punts
+
+    S'avaluarà la gestió de base de dades :
+        1 punt si és fet amb SQL
+        3 punts si és fet amb ORM
+
+La tasca es lliura a través d'un repositori GIT públic. Serveixin-se proporcionar :
+
+    codi matràs
+    codi HTML
+    codi SQL (si cal )
+    Base de dades
+
+L'esquema de SQL estarà conformat d'una taula que inclou les dades de l' usuari en el següent formulari :
+
+    nom d'usuari
+    nom complet
+    correu electrònic
+    contrasenya
