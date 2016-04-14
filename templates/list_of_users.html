@@ -1,17 +1,17 @@
 <html>
   <head>
-    <title>Usrs</title>
+    <title>Users</title>
   </head>
   <body>
     <h2>Users</h2>
     <table border="1">
       <tr>
-	<th>Date</th>
-	<th>Time</th>
-	<th>Zone</th>
-	<th>Temperature</th>
+	<th>User</th>
+	<th>Name</th>
+	<th>Password</th>
+	<th>Email</th>
       </tr>
-	{% for row in historical_data %}
+	{% for row in list_of_users %}
           <tr>
 	  {% for cell in row %}
 	    <td> {{cell}} </td>
