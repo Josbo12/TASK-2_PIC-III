@@ -29,9 +29,9 @@ def get_data():
     conn.close()
     return data
 
-def authentication(self, username, password):
+def authentication(username, password):
     conn = sqlite3.connect('dadestask2.db')
-    cursor = conn.execute("SELECT username,password from users where username")
+    cursor = conn.execute("SELECT username, password from users ")
     for row in cursor:
         if row[0] == username:
             if row[1] == password:
@@ -54,14 +54,14 @@ def hello():
 @app.route('/insert_user', methods=['GET', 'POST'])
 def insert_user():
     if request.method == 'GET':
-            return render_template('create_a_new_user1.html')
+            return render_template('create_a_new_user.html')
     elif request.method == 'POST':
         username = request.form.get('username')
         name = request.form.get('name')
         password = request.form.get('password')
         email = request.form.get('email')
         if save_data(username,name,password,email):
-            return redirect(url_for('hello'))
+            return render_template('register_ok.html',username=username)
         else:
             return "Error inserting user"
 
@@ -73,16 +73,21 @@ def list_of_users():
 
 
 @app.route('/login', methods=['GET', 'POST'])
-def user_login():
+def login():
     if request.method == 'GET':
             return render_template('login.html')
     elif request.method == 'POST':
         username = request.form.get('username')
         password = request.form.get('password')
-        if authentication(username,password):
-            return render_template('login_ok.html',username=username)
+        if authentication(username, password):
+            return render_template('login_ok.html')
         else:
             return "Error Login"
+
+@app.route('/register_ok', methods=['GET', 'POST'])
+def register_ok():
+    return redirect(url_for('hello'))
+
 #@app.route('/zone_data', methods=['GET', 'POST'])
 #def zone_data():
 #    zones = get_zones()
