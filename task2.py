@@ -29,12 +29,16 @@ def get_data():
     conn.close()
     return data
 
-#def get_zone_data(zone):
-#    conn = sqlite3.connect('dadestask2.db')
-#    cursor = conn.execute("SELECT tdate,ttime,zone,temperature from temps WHERE zone = ?",(zone,))
-#    data = [row for row in cursor]
-#    conn.close()
-#    return data
+def authentication(self, username, password):
+    conn = sqlite3.connect('dadestask2.db')
+    cursor = conn.execute("SELECT username,password from users where username")
+    for row in cursor:
+        if row[0] == username:
+            if row[1] == password:
+                return True
+    else:
+        return False
+
 
 #def get_zones():
 #    conn = sqlite3.connect('dadestask2.db')
@@ -50,7 +54,7 @@ def hello():
 @app.route('/insert_user', methods=['GET', 'POST'])
 def insert_user():
     if request.method == 'GET':
-            return render_template('create_a_new_user.html')
+            return render_template('create_a_new_user1.html')
     elif request.method == 'POST':
         username = request.form.get('username')
         name = request.form.get('name')
@@ -66,6 +70,19 @@ def list_of_users():
     list_of_users = get_data()
     return render_template('list_of_users.html',list_of_users=list_of_users)
 
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def user_login():
+    if request.method == 'GET':
+            return render_template('login.html')
+    elif request.method == 'POST':
+        username = request.form.get('username')
+        password = request.form.get('password')
+        if authentication(username,password):
+            return render_template('login_ok.html',username=username)
+        else:
+            return "Error Login"
 #@app.route('/zone_data', methods=['GET', 'POST'])
 #def zone_data():
 #    zones = get_zones()
