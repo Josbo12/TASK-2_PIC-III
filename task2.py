@@ -9,17 +9,26 @@ app = Flask(__name__)
 
 def save_data(username,name,password,email):
     conn = sqlite3.connect('dadestask2.db')
-    try:
-        conn.execute("insert into users (username,name,password,email) values (?, ?, ?, ?)",
-                 (username,
-                  name,
-                  password,
-                  email))
-        conn.commit()
-        conn.close()
-        return True
-    except:
-        return False
+    cursor = conn.execute("SELECT username, email from users")
+    aa=1
+    for row in cursor:
+        if row[0] == username:
+            aa=2
+            break
+        if row[1] == email:
+            aa=3
+            break
+    if aa == 1:
+            conn.execute("insert into users (username,name,password,email) values (?, ?, ?, ?)",
+                     (username,
+                      name,
+                      password,
+                      email))
+            conn.commit()
+            conn.close()
+            return True
+    else:
+            return False
 
 
 def get_data():
@@ -63,7 +72,18 @@ def insert_user():
         if save_data(username,name,password,email):
             return render_template('register_ok.html',username=username)
         else:
-            return "Error inserting user"
+            return render_template('register_error.html',username=username)
+
+@app.route('/register_ok', methods=['GET', 'POST'])
+def register_ok():
+    return redirect(url_for('hello'))
+
+@app.route('/register_error', methods=['GET', 'POST'])
+def register_error():
+    return redirect(url_for('insert_user'))
+
+
+
 
 @app.route('/list_of_users', methods=['GET', 'POST'])
 def list_of_users():
@@ -82,11 +102,16 @@ def login():
         if authentication(username, password):
             return render_template('login_ok.html')
         else:
-            return "Error Login"
+            return render_template('login_error.html')
 
-@app.route('/register_ok', methods=['GET', 'POST'])
-def register_ok():
+
+@app.route('/login_ok', methods=['GET', 'POST'])
+def login_ok():
     return redirect(url_for('hello'))
+
+@app.route('/login_error', methods=['GET', 'POST'])
+def login_error():
+    return redirect(url_for('login'))
 
 #@app.route('/zone_data', methods=['GET', 'POST'])
 #def zone_data():
