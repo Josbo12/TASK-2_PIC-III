@@ -9,16 +9,12 @@ app = Flask(__name__)
 
 def save_data(username,name,password,email):
     conn = sqlite3.connect('dadestask2.db')
-    cursor = conn.execute("SELECT username, email from users")
-    aa=1
-    for row in cursor:
-        if row[0] == username:
-            aa=2
-            break
-        if row[1] == email:
-            aa=3
-            break
-    if aa == 1:
+    cursor = conn.execute("SELECT username, email from users where username=? and email=?" ,(username,email) )
+    #cursor = conn.execute("SELECT username, email from users where (username,email) values (?,?)",username, email )
+    #t = [e for e in cursor]
+    t=cursor.fetchone()
+
+    if t == None:
             conn.execute("insert into users (username,name,password,email) values (?, ?, ?, ?)",
                      (username,
                       name,
@@ -49,12 +45,6 @@ def authentication(username, password):
         return False
 
 
-#def get_zones():
-#    conn = sqlite3.connect('dadestask2.db')
-#    cursor = conn.execute("select distinct zone from temps;")
-#    data = [row[0] for row in cursor]
-#    conn.close()
-#    return data
 
 @app.route('/')
 def hello():
@@ -70,9 +60,9 @@ def insert_user():
         password = request.form.get('password')
         email = request.form.get('email')
         if save_data(username,name,password,email):
-            return render_template('register_ok.html',username=username)
+            return render_template('register_ok.html')
         else:
-            return render_template('register_error.html',username=username)
+            return render_template('register_error.html')
 
 @app.route('/register_ok', methods=['GET', 'POST'])
 def register_ok():
@@ -113,16 +103,7 @@ def login_ok():
 def login_error():
     return redirect(url_for('login'))
 
-#@app.route('/zone_data', methods=['GET', 'POST'])
-#def zone_data():
-#    zones = get_zones()
-#    if request.method == 'GET':
-#        zone_data = []
-#    elif request.method == 'POST':
-#        zone = request.form.get('area')
-#        print(zone, file=sys.stderr)
-#        zone_data = get_zone_data(zone)
-#    return render_template('zone_data_table.html',zone_data=zone_data, zones=zones)
+
 
 if __name__ == '__main__':
     app.debug = True
