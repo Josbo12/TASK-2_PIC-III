@@ -19,3 +19,7 @@ class User(Base):
 
 # Create all tables in the engine. This is equivalent to "Create Table"
 # statements in raw SQL.
+from sqlalchemy import create_engine
+path_to_db = "dadestask2.db"
+engine = create_engine('sqlite:///' + path_to_db)
+Base.metadata.bind = engine
