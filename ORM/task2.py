@@ -12,46 +12,43 @@ from sqlalchemy_declarative import User, Base
 
 app = Flask(__name__)
 
-def new_user(username,name,password,email):
 
-
+def Session():
     path_to_db = "dadestask2.db"
     engine = create_engine('sqlite:///' + path_to_db)
     Base.metadata.bind = engine
     DBSession = sessionmaker(bind=engine)
-
     session = DBSession()
-    new_user = User(username=username,name=name,password=password,email=email)
-    session.add(new_user)
-    session.commit()
+    return session
 
+def new_user(username,name,password,email):
 
-            #conn.execute("insert into users (username,name,password,email) values (?, ?, ?, ?)",
-            #         (username,
-            #          name,
-            #          password,
-            #          email))
-
-
-
-def get_data():
-    conn = sqlite3.connect('dadestask2.db')
-    cursor = conn.execute("SELECT username,name,email from users")
-    data = [row for row in cursor]
-    conn.close()
-    return data
-
-def authentication(username, password):
-    conn = sqlite3.connect('dadestask2.db')
-    cursor = conn.execute("SELECT username, password from users ")
-    for row in cursor:
-        if row[0] == username:
-            if row[1] == password:
-                return True
-    else:
+    try:
+        session=Session()
+        new_user = User(username=username,name=name,password=password,email=email)
+        session.add(new_user)
+        session.commit()
+        return True
+    except:
         return False
 
 
+def get_data():
+
+    session=Session()
+    cursor = session.query(User).all()
+    data = [row for row in cursor]
+    return data
+
+
+def authentication(username, password):
+    try:
+        session=Session()
+        registered_user = session.query(User).filter_by(username=username,password=password).first()
+        if registered_user is not None:
+            return True
+    except:
+        return False
 
 
 @app.route('/')
@@ -95,8 +92,9 @@ def login():
     if request.method == 'GET':
             return render_template('login.html')
     elif request.method == 'POST':
-        username = request.form.get('username')
-        password = request.form.get('password')
+        username = request.form['username']
+        password = request.form['password']
+
         if authentication(username, password):
             return render_template('login_ok.html')
         else:
