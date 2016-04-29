@@ -40,8 +40,8 @@ def new_user(username,name,password,email):
 def get_data():
 
     session=Session()
-    cursor = session.query(User).all()
-    data = [row for row in cursor]
+    users = session.query(User).all()
+    data = [[user.username,user.name,user.email] for user in users]
     return data
 
 
