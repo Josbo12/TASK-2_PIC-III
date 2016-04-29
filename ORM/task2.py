@@ -23,12 +23,16 @@ def Session():
 
 def new_user(username,name,password,email):
 
+
+    session=Session()
+    session=Session()
+    registered_user = session.query(User).filter_by(username=username,password=password,email=email,name=name).first()
     try:
-        session=Session()
-        new_user = User(username=username,name=name,password=password,email=email)
-        session.add(new_user)
-        session.commit()
-        return True
+        if registered_user is None:
+            new_user = User(username=username,name=name,password=password,email=email)
+            session.add(new_user)
+            session.commit()
+            return True
     except:
         return False
 
@@ -44,8 +48,8 @@ def get_data():
 def authentication(username, password):
     try:
         session=Session()
-        registered_user = session.query(User).filter_by(username=username,password=password).first()
-        if registered_user is not None:
+        login = session.query(User).filter_by(username=username,password=password).first()
+        if login is not None:
             return True
     except:
         return False
